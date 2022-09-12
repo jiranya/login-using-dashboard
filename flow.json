@@ -10,7 +10,7 @@
     {
         "id": "998b97f5b943c6e9",
         "type": "ui_group",
-        "name": "login-page",
+        "name": "login",
         "tab": "fedb43148d56dfbd",
         "order": 1,
         "disp": true,
@@ -21,7 +21,7 @@
     {
         "id": "fedb43148d56dfbd",
         "type": "ui_tab",
-        "name": "main-page",
+        "name": "main_page",
         "icon": "dashboard",
         "disabled": false,
         "hidden": false
@@ -211,7 +211,7 @@
         "type": "debug",
         "z": "6ffda2145572bcc2",
         "name": "debug 1",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -226,6 +226,7 @@
         "id": "fcd714c8b94d0914",
         "type": "ui_template",
         "z": "6ffda2145572bcc2",
+        "d": true,
         "group": "fb93414c69449add",
         "name": "",
         "order": 1,
@@ -248,16 +249,193 @@
         "type": "function",
         "z": "6ffda2145572bcc2",
         "name": "check-login",
-        "func": "\nreturn msg;",
+        "func": "msg.payload = 1;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 650,
+        "x": 670,
+        "y": 340,
+        "wires": [
+            [
+                "e6b84e751adc4964",
+                "d98a3d6dc74bbbef"
+            ]
+        ]
+    },
+    {
+        "id": "e6b84e751adc4964",
+        "type": "switch",
+        "z": "6ffda2145572bcc2",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 850,
+        "y": 340,
+        "wires": [
+            [
+                "902a7f45706875bc"
+            ],
+            [
+                "d65498c9bee78b8f"
+            ]
+        ]
+    },
+    {
+        "id": "902a7f45706875bc",
+        "type": "change",
+        "z": "6ffda2145572bcc2",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"group\":{\"hide\":[\"main_page_login\"]}}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1040,
+        "y": 320,
+        "wires": [
+            [
+                "cb3cdca9998169f1",
+                "5326a5aa52f10f02"
+            ]
+        ]
+    },
+    {
+        "id": "d65498c9bee78b8f",
+        "type": "change",
+        "z": "6ffda2145572bcc2",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"group\":{\"show\":[\"main_page_login\"]}}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1040,
+        "y": 360,
+        "wires": [
+            [
+                "cb3cdca9998169f1",
+                "489736aba619a396"
+            ]
+        ]
+    },
+    {
+        "id": "cb3cdca9998169f1",
+        "type": "ui_ui_control",
+        "z": "6ffda2145572bcc2",
+        "name": "",
+        "events": "all",
+        "x": 1240,
         "y": 340,
         "wires": [
             []
         ]
+    },
+    {
+        "id": "a3757f2c11c927b3",
+        "type": "inject",
+        "z": "6ffda2145572bcc2",
+        "name": "Started!",
+        "props": [
+            {
+                "p": "topic",
+                "v": "Started!",
+                "vt": "flow"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 500,
+        "y": 340,
+        "wires": [
+            [
+                "4fd71a49a23017bf"
+            ]
+        ]
+    },
+    {
+        "id": "d98a3d6dc74bbbef",
+        "type": "debug",
+        "z": "6ffda2145572bcc2",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 820,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "5326a5aa52f10f02",
+        "type": "debug",
+        "z": "6ffda2145572bcc2",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1240,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "489736aba619a396",
+        "type": "debug",
+        "z": "6ffda2145572bcc2",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1240,
+        "y": 420,
+        "wires": []
     }
 ]
