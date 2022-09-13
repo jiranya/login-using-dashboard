@@ -10,12 +10,12 @@
     {
         "id": "998b97f5b943c6e9",
         "type": "ui_group",
-        "name": "login",
+        "name": "register",
         "tab": "fedb43148d56dfbd",
         "order": 1,
         "disp": true,
         "width": "5",
-        "collapse": false,
+        "collapse": true,
         "className": ""
     },
     {
@@ -31,7 +31,7 @@
         "type": "ui_group",
         "name": "picture",
         "tab": "fedb43148d56dfbd",
-        "order": 2,
+        "order": 3,
         "disp": true,
         "width": "6",
         "collapse": false,
@@ -135,12 +135,33 @@
         }
     },
     {
+        "id": "420d8dc2ebec7272",
+        "type": "MySQLdatabase",
+        "name": "",
+        "host": "localhost",
+        "port": "3306",
+        "db": "quuppa",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "63ea4a96c6c4abb2",
+        "type": "ui_group",
+        "name": "login",
+        "tab": "fedb43148d56dfbd",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
         "id": "3acc425b3acd4ead",
         "type": "ui_form",
         "z": "6ffda2145572bcc2",
         "name": "",
         "label": "login",
-        "group": "998b97f5b943c6e9",
+        "group": "63ea4a96c6c4abb2",
         "order": 1,
         "width": 0,
         "height": 0,
@@ -148,13 +169,6 @@
             {
                 "label": "UID",
                 "value": "uid",
-                "type": "text",
-                "required": true,
-                "rows": null
-            },
-            {
-                "label": "Username",
-                "value": "uname",
                 "type": "text",
                 "required": true,
                 "rows": null
@@ -169,7 +183,6 @@
         ],
         "formValue": {
             "uid": "",
-            "uname": "",
             "psw": ""
         },
         "payload": "",
@@ -177,7 +190,7 @@
         "cancel": "cancel",
         "topic": "topic",
         "topicType": "msg",
-        "splitLayout": "",
+        "splitLayout": false,
         "className": "",
         "x": 630,
         "y": 440,
@@ -191,42 +204,26 @@
         "id": "98fa1efbaed53d10",
         "type": "function",
         "z": "6ffda2145572bcc2",
-        "name": "function 1",
-        "func": "\nreturn msg;",
+        "name": "check login",
+        "func": "var obj = msg.payload;\nvar uid = obj.uid;\nvar password = obj.psw;\nmsg.topic = \"SELECT * from users_info WHERE uid = '\" + uid + \"' AND BINARY password = '\" + password + \"';\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 860,
+        "x": 830,
         "y": 440,
         "wires": [
             [
-                "aa166e8a71f21cca"
+                "d08a0df9f29614c7",
+                "74b140133e2feeb3"
             ]
         ]
-    },
-    {
-        "id": "aa166e8a71f21cca",
-        "type": "debug",
-        "z": "6ffda2145572bcc2",
-        "name": "debug 1",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1040,
-        "y": 440,
-        "wires": []
     },
     {
         "id": "fcd714c8b94d0914",
         "type": "ui_template",
         "z": "6ffda2145572bcc2",
-        "d": true,
         "group": "fb93414c69449add",
         "name": "",
         "order": 1,
@@ -239,7 +236,7 @@
         "templateScope": "local",
         "className": "",
         "x": 640,
-        "y": 540,
+        "y": 580,
         "wires": [
             []
         ]
@@ -249,7 +246,7 @@
         "type": "function",
         "z": "6ffda2145572bcc2",
         "name": "check-login",
-        "func": "msg.payload = 1;\nreturn msg;",
+        "func": "msg.payload = 0;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -290,43 +287,17 @@
         "y": 340,
         "wires": [
             [
-                "902a7f45706875bc"
+                "902a7f45706875bc",
+                "7ba9b51ca6cfcaf0"
             ],
             [
-                "d65498c9bee78b8f"
+                "d65498c9bee78b8f",
+                "8c5265d1ba9542ca"
             ]
         ]
     },
     {
         "id": "902a7f45706875bc",
-        "type": "change",
-        "z": "6ffda2145572bcc2",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "{\"group\":{\"hide\":[\"main_page_login\"]}}",
-                "tot": "json"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 1040,
-        "y": 320,
-        "wires": [
-            [
-                "cb3cdca9998169f1",
-                "5326a5aa52f10f02"
-            ]
-        ]
-    },
-    {
-        "id": "d65498c9bee78b8f",
         "type": "change",
         "z": "6ffda2145572bcc2",
         "name": "",
@@ -345,11 +316,37 @@
         "to": "",
         "reg": false,
         "x": 1040,
+        "y": 320,
+        "wires": [
+            [
+                "cb3cdca9998169f1"
+            ]
+        ]
+    },
+    {
+        "id": "d65498c9bee78b8f",
+        "type": "change",
+        "z": "6ffda2145572bcc2",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"group\":{\"hide\":[\"main_page_login\"]}}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1040,
         "y": 360,
         "wires": [
             [
-                "cb3cdca9998169f1",
-                "489736aba619a396"
+                "cb3cdca9998169f1"
             ]
         ]
     },
@@ -407,10 +404,24 @@
         "wires": []
     },
     {
-        "id": "5326a5aa52f10f02",
+        "id": "d08a0df9f29614c7",
+        "type": "mysql",
+        "z": "6ffda2145572bcc2",
+        "mydb": "420d8dc2ebec7272",
+        "name": "",
+        "x": 1040,
+        "y": 440,
+        "wires": [
+            [
+                "d5bbcacf05aaf294"
+            ]
+        ]
+    },
+    {
+        "id": "74b140133e2feeb3",
         "type": "debug",
         "z": "6ffda2145572bcc2",
-        "name": "debug 3",
+        "name": "debug 5",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -418,24 +429,258 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1240,
-        "y": 260,
+        "x": 1040,
+        "y": 500,
         "wires": []
     },
     {
-        "id": "489736aba619a396",
-        "type": "debug",
+        "id": "d5bbcacf05aaf294",
+        "type": "function",
         "z": "6ffda2145572bcc2",
-        "name": "debug 4",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1240,
-        "y": 420,
-        "wires": []
+        "name": "login success",
+        "func": "var obj = msg.payload;\nif(Object.keys(obj).length === 0) {   \n    msg.payload = 0; \n    } else {\n        msg.payload = obj;\n        } \nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1260,
+        "y": 520,
+        "wires": [
+            [
+                "1390089d1973a253"
+            ]
+        ]
+    },
+    {
+        "id": "1390089d1973a253",
+        "type": "switch",
+        "z": "6ffda2145572bcc2",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "neq",
+                "v": "0",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1450,
+        "y": 520,
+        "wires": [
+            [
+                "5d1a958e62a7d7be",
+                "1893bda08a90173b"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "5d1a958e62a7d7be",
+        "type": "change",
+        "z": "6ffda2145572bcc2",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"group\":{\"hide\":[\"main_page_login\"]}}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1620,
+        "y": 440,
+        "wires": [
+            [
+                "7bc64b6553ceabd6"
+            ]
+        ]
+    },
+    {
+        "id": "1893bda08a90173b",
+        "type": "change",
+        "z": "6ffda2145572bcc2",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"group\":{\"show\":[\"main_page_picture\"]}}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1620,
+        "y": 480,
+        "wires": [
+            [
+                "7bc64b6553ceabd6"
+            ]
+        ]
+    },
+    {
+        "id": "7ba9b51ca6cfcaf0",
+        "type": "change",
+        "z": "6ffda2145572bcc2",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"group\":{\"hide\":[\"main_page_picture\"]}}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1040,
+        "y": 280,
+        "wires": [
+            [
+                "cb3cdca9998169f1"
+            ]
+        ]
+    },
+    {
+        "id": "8c5265d1ba9542ca",
+        "type": "change",
+        "z": "6ffda2145572bcc2",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"group\":{\"show\":[\"main_page_picture\"]}}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1040,
+        "y": 400,
+        "wires": [
+            [
+                "cb3cdca9998169f1"
+            ]
+        ]
+    },
+    {
+        "id": "7bc64b6553ceabd6",
+        "type": "ui_ui_control",
+        "z": "6ffda2145572bcc2",
+        "name": "",
+        "events": "all",
+        "x": 1800,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f47c627ca2b98938",
+        "type": "ui_form",
+        "z": "6ffda2145572bcc2",
+        "d": true,
+        "name": "",
+        "label": "register",
+        "group": "998b97f5b943c6e9",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "UID",
+                "value": "uis",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "User",
+                "value": "uname",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Password",
+                "value": "psw",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "uis": "",
+            "uname": "",
+            "psw": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 640,
+        "y": 500,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6d864c5ddc47f2d4",
+        "type": "ui_button",
+        "z": "6ffda2145572bcc2",
+        "d": true,
+        "name": "",
+        "group": "998b97f5b943c6e9",
+        "order": 1,
+        "width": "4",
+        "height": "1",
+        "passthru": false,
+        "label": "button",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 630,
+        "y": 540,
+        "wires": [
+            []
+        ]
     }
 ]
