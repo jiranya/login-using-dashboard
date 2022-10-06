@@ -246,7 +246,7 @@
         "type": "function",
         "z": "6ffda2145572bcc2",
         "name": "check-login",
-        "func": "msg.payload = 0;\nreturn msg;",
+        "func": "var user = global.get(\"user\");\n\nif (typeof user !== 'undefined') {\n    msg.payload = user;\n} else {\n    msg.payload = null;\n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -270,14 +270,10 @@
         "propertyType": "msg",
         "rules": [
             {
-                "t": "eq",
-                "v": "0",
-                "vt": "str"
+                "t": "null"
             },
             {
-                "t": "eq",
-                "v": "1",
-                "vt": "str"
+                "t": "nnull"
             }
         ],
         "checkall": "true",
@@ -315,7 +311,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1040,
+        "x": 1460,
         "y": 320,
         "wires": [
             [
@@ -342,7 +338,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1040,
+        "x": 1460,
         "y": 360,
         "wires": [
             [
@@ -356,8 +352,8 @@
         "z": "6ffda2145572bcc2",
         "name": "",
         "events": "all",
-        "x": 1240,
-        "y": 340,
+        "x": 1780,
+        "y": 360,
         "wires": [
             []
         ]
@@ -379,7 +375,7 @@
         "once": true,
         "onceDelay": 0.1,
         "topic": "",
-        "x": 500,
+        "x": 460,
         "y": 340,
         "wires": [
             [
@@ -438,7 +434,7 @@
         "type": "function",
         "z": "6ffda2145572bcc2",
         "name": "login success",
-        "func": "var obj = msg.payload;\nif(Object.keys(obj).length === 0) {   \n    msg.payload = 0; \n    } else {\n        msg.payload = obj;\n        } \nreturn msg;\n",
+        "func": "var obj = msg.payload;\nif(Object.keys(obj).length === 0) {   \n    msg.payload = null; \n    } else {\n        msg.payload = obj;\n        global.set(\"user\", \"112\")\n        } \nreturn msg;\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -448,7 +444,8 @@
         "y": 520,
         "wires": [
             [
-                "1390089d1973a253"
+                "1390089d1973a253",
+                "e150d4d1db575ef6"
             ]
         ]
     },
@@ -461,14 +458,10 @@
         "propertyType": "msg",
         "rules": [
             {
-                "t": "neq",
-                "v": "0",
-                "vt": "str"
+                "t": "null"
             },
             {
-                "t": "eq",
-                "v": "0",
-                "vt": "str"
+                "t": "nnull"
             }
         ],
         "checkall": "true",
@@ -478,63 +471,12 @@
         "y": 520,
         "wires": [
             [
-                "5d1a958e62a7d7be",
-                "1893bda08a90173b"
+                "7ba9b51ca6cfcaf0",
+                "902a7f45706875bc"
             ],
-            []
-        ]
-    },
-    {
-        "id": "5d1a958e62a7d7be",
-        "type": "change",
-        "z": "6ffda2145572bcc2",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "{\"group\":{\"hide\":[\"main_page_login\"]}}",
-                "tot": "json"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 1620,
-        "y": 440,
-        "wires": [
             [
-                "7bc64b6553ceabd6"
-            ]
-        ]
-    },
-    {
-        "id": "1893bda08a90173b",
-        "type": "change",
-        "z": "6ffda2145572bcc2",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "{\"group\":{\"show\":[\"main_page_picture\"]}}",
-                "tot": "json"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 1620,
-        "y": 480,
-        "wires": [
-            [
-                "7bc64b6553ceabd6"
+                "d65498c9bee78b8f",
+                "8c5265d1ba9542ca"
             ]
         ]
     },
@@ -557,7 +499,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1040,
+        "x": 1460,
         "y": 280,
         "wires": [
             [
@@ -584,24 +526,12 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1040,
+        "x": 1460,
         "y": 400,
         "wires": [
             [
                 "cb3cdca9998169f1"
             ]
-        ]
-    },
-    {
-        "id": "7bc64b6553ceabd6",
-        "type": "ui_ui_control",
-        "z": "6ffda2145572bcc2",
-        "name": "",
-        "events": "all",
-        "x": 1820,
-        "y": 460,
-        "wires": [
-            []
         ]
     },
     {
@@ -681,6 +611,75 @@
         "y": 540,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "e150d4d1db575ef6",
+        "type": "debug",
+        "z": "6ffda2145572bcc2",
+        "name": "debug 6",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1440,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "cb088fd27c6f2633",
+        "type": "ui_button",
+        "z": "6ffda2145572bcc2",
+        "name": "",
+        "group": "fb93414c69449add",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "logout",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "1",
+        "payloadType": "num",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 630,
+        "y": 660,
+        "wires": [
+            [
+                "297211d0ef29b7f6"
+            ]
+        ]
+    },
+    {
+        "id": "297211d0ef29b7f6",
+        "type": "change",
+        "z": "6ffda2145572bcc2",
+        "name": "",
+        "rules": [
+            {
+                "t": "delete",
+                "p": "user",
+                "pt": "global"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 810,
+        "y": 660,
+        "wires": [
+            [
+                "4fd71a49a23017bf"
+            ]
         ]
     }
 ]
